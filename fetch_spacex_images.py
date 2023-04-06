@@ -22,6 +22,14 @@ def fetch_spacex_last_launch(api: str, id_launch="latest") -> object:
     print("SpaceX photo download == ok")
 
 
+def sturtup_spcacex_script():
+    load_dotenv()
+    api = os.environ["SPACEX_API"]
+    download_path = os.getenv("DOWNLOAD_PATH")
+    Path(download_path).mkdir(parents=True, exist_ok=True)
+    fetch_spacex_last_launch(api)
+
+
 if __name__ == "__main__":
     load_dotenv()
     api = os.environ["SPACEX_API"]
