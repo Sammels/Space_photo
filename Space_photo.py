@@ -14,6 +14,8 @@ def download_images(url) -> object:
     """Fucntion get url -> download img to path"""
     list_url = url
     for number, links in enumerate(list_url):
+        if None:
+            continue
         response = requests.get(links)
         response.raise_for_status()
         extension = get_file_extension(links)
@@ -84,9 +86,10 @@ def get_epic_earth_link_photo(token: str) -> str:
 if __name__ == "__main__":
     load_dotenv()
     token = os.environ["NASA_API_TOKEN"]
-    nasa_api = os.environ["NASA_API"]
+    nasa_api = os.environ["APOD_NASA_API"]
     api = os.environ["API"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    download_images(get_nasa_photo(nasa_api, token, 20))
+    nasa_link = get_nasa_photo(nasa_api, token, 20)
+    download_images(nasa_link)
     get_epic_earth_link_photo(token)
