@@ -19,7 +19,7 @@ def fetch_spacex_last_launch(api: str, id_launch="latest") -> object:
         response.raise_for_status()
         with open(f"images/ships_{number}.jpeg", "wb") as file:
             file.write(response.content)
-    print("SpaceX photo download == ok")
+    print("Function: fetch_spacex_last_launch - Done")
 
 
 def sturtup_spcacex_script():
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     load_dotenv()
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    fetch_spacex_last_launch(SPACEX_API)
+    fetch_spacex_last_launch(SPACEX_API, LAUNCH_ID)

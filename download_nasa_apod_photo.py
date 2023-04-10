@@ -15,7 +15,7 @@ def download_images(url) -> object:
         extension = get_file_extension(links)
         with open(f"images/nasa_apod_{number}{extension}", "wb") as file:
             file.write(response.content)
-    print("Download data = ok.")
+    print("Function: download_images - Done")
 
 
 def get_file_extension(url: str) -> str:
