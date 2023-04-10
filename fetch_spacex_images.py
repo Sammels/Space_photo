@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 LAUNCH_ID = "5eb87d46ffd86e000604b388"
-
+SPACEX_API = "https://api.spacexdata.com/v5/launches/"
 
 def fetch_spacex_last_launch(api: str, id_launch="latest") -> object:
     """Fucntion take api, and md5-hash launch -> download pict."""
@@ -32,7 +32,6 @@ def sturtup_spcacex_script():
 
 if __name__ == "__main__":
     load_dotenv()
-    api = os.environ["SPACEX_API"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    fetch_spacex_last_launch(api)
+    fetch_spacex_last_launch(SPACEX_API)

@@ -4,6 +4,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from dotenv import load_dotenv
 
+API = "https://api.nasa.gov/planetary/apod"
 
 def download_images(url) -> object:
     """Fucntion get url -> download img to path"""
@@ -44,18 +45,16 @@ def get_nasa_photo(api: str, token: str, count: int) -> list:
 def sturtup_apod_script():
     load_dotenv()
     token = os.environ["NASA_API_TOKEN"]
-    nasa_api = os.environ["APOD_NASA_API"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photo(nasa_api, token, 20)
+    nasa_link = get_nasa_photo(API, token, 20)
     download_images(nasa_link)
 
 
 if __name__ == "__main__":
     load_dotenv()
     token = os.environ["NASA_API_TOKEN"]
-    nasa_api = os.environ["APOD_NASA_API"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photo(nasa_api, token, 20)
+    nasa_link = get_nasa_photo(API, token, 20)
     download_images(nasa_link)
