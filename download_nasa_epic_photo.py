@@ -2,22 +2,15 @@ import os
 import requests
 import datetime
 from pathlib import Path
-from urllib.parse import urlsplit
 from dotenv import load_dotenv
 
-
-def get_file_extension(url: str) -> str:
-    """Function get http link and return file extension"""
-    url = urlsplit(url)[2]
-    template1 = os.path.splitext(url)
-    file_link, *extension = template1
-    return extension[0]
+from python_utils import get_file_extension
 
 
 def get_epic_earth_link_photo(token: str) -> str:
     """Take token, them return foto from nasa api"""
     epic_nasa_api = "https://api.nasa.gov/EPIC/api/natural/images"
-    params = {"api_key": f"{token}"}
+    params = {"api_key": token}
     response = requests.get(epic_nasa_api, params=params)
     response.raise_for_status()
     link = response.json()
