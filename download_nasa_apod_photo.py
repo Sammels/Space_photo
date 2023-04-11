@@ -37,16 +37,13 @@ def download_images(url: str, number: int, extension: str) -> object:
 
 
 if __name__ == "__main__":
-    start_time = time.time()
     load_dotenv()
     token = os.environ["NASA_API_TOKEN"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photo(API, token, 45)
+    nasa_link = get_nasa_photo(API, token, 10)
 
     for number, link in enumerate(nasa_link):
         extension = get_file_extension(link)
         download_images(link, number, extension)
     logging.debug("Function: download_images - Done")
-    end_time = time.time() - start_time
-    print(end_time)

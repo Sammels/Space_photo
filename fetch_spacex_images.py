@@ -13,8 +13,8 @@ def fetch_spacex_last_launch(api: str, id_launch="latest") -> object:
     update_api = f"{api}{id_launch}"
     response = requests.get(update_api)
     response.raise_for_status()
-    list_response = response.json()
-    some_ship = list_response["links"]["flickr"]["original"]
+    response = response.json()
+    some_ship = response["links"]["flickr"]["original"]
 
     for number, link in enumerate(some_ship):
         response = requests.get(link)
