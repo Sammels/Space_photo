@@ -35,14 +35,6 @@ def get_epic_earth_link_photo(token: str) -> str:
     print("Function: get_epic_earth_link_photo - Done ")
 
 
-def sturtup_epic_script():
-    load_dotenv()
-    token = os.environ["NASA_API_TOKEN"]
-    download_path = os.getenv("DOWNLOAD_PATH")
-    Path(download_path).mkdir(parents=True, exist_ok=True)
-    get_epic_earth_link_photo(token)
-
-
 if __name__ == "__main__":
     load_dotenv()
     token = os.environ["NASA_API_TOKEN"]
