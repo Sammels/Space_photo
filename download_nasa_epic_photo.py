@@ -1,3 +1,4 @@
+import logging
 import os
 import requests
 import datetime
@@ -13,11 +14,11 @@ def get_epic_earth_link_photo(token: str) -> str:
     params = {"api_key": token}
     response = requests.get(epic_nasa_api, params=params)
     response.raise_for_status()
-    link = response.json()
+    url_links = response.json()
 
-    for number, links in enumerate(link):
-        image_name = links.get("image")
-        image_create_date = links.get("date")
+    for number, link in enumerate(url_links):
+        image_name = link.get("image")
+        image_create_date = link.get("date")
         image_create_date = str(datetime.datetime.fromisoformat(image_create_date).date()).split(sep="-")
         return_link = f"https://api.nasa.gov/EPIC/archive/natural/{image_create_date[0]}/{image_create_date[1]}/{image_create_date[2]}/png/{image_name}.png"
         extension = get_file_extension(return_link)
@@ -25,7 +26,7 @@ def get_epic_earth_link_photo(token: str) -> str:
         response.raise_for_status()
         with open(f"images/{image_name}_{number}{extension}", "wb") as file:
             file.write(response.content)
-    print("Function: get_epic_earth_link_photo - Done ")
+    logging.debug("Function: download_images - Done")
 
 
 if __name__ == "__main__":

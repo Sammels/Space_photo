@@ -24,7 +24,7 @@ while True:
 
     for root, dirs, files in os.walk(f"{path}"):
         dir_files = files
-    files = (random.choice(dir_files))
+    file = random.choice(dir_files)
 
     def send_text(text: str) -> str:
         """Get text -> api telegram -> channel message"""
@@ -32,11 +32,10 @@ while True:
 
     def send_image(chat_id: int) -> str:
         """Get chat_id -> send docs to channels"""
-        bot.send_document(chat_id=chat_id, document=open(f'images/{files}', 'rb'))
+        bot.send_document(chat_id=chat_id, document=open(f'images/{file}', 'rb'))
 
     send_image(chat_id)
     time.sleep(pause_time)
-
 
 
 if __name__ == "__main__":

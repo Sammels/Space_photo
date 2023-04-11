@@ -1,3 +1,4 @@
+import logging
 import os
 import requests
 from pathlib import Path
@@ -12,15 +13,15 @@ def fetch_spacex_last_launch(api: str, id_launch="latest") -> object:
     update_api = f"{api}{id_launch}"
     response = requests.get(update_api)
     response.raise_for_status()
-    response_json = response.json()
-    some_ship = response_json["links"]["flickr"]["original"]
+    list_response = response.json()
+    some_ship = list_response["links"]["flickr"]["original"]
 
-    for number, links in enumerate(some_ship):
-        response = requests.get(links)
+    for number, link in enumerate(some_ship):
+        response = requests.get(link)
         response.raise_for_status()
         with open(f"images/ships_{number}.jpeg", "wb") as file:
             file.write(response.content)
-    print("Function: fetch_spacex_last_launch - Done")
+    logging.debug("Function: fetch_spacex_last_launch - Done")
 
 
 if __name__ == "__main__":
