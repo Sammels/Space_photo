@@ -5,7 +5,6 @@ import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
-from python_utils import get_file_extension
 
 
 def get_epic_earth_link_photo(token: str) -> str:
@@ -19,13 +18,16 @@ def get_epic_earth_link_photo(token: str) -> str:
     for number, link in enumerate(url_links):
         image_name = link.get("image")
         image_create_date = link.get("date")
-        image_create_date = str(datetime.datetime.fromisoformat(image_create_date).date()).split(sep="-")
-        return_link = f"https://api.nasa.gov/EPIC/archive/natural/{image_create_date[0]}/{image_create_date[1]}/{image_create_date[2]}/png/{image_name}.png"
-        extension = get_file_extension(return_link)
-        response = requests.get(return_link, params=params)
+        image_create_date = datetime.datetime.fromisoformat(image_create_date).date()
+        print(image_create_date)
+        year = image_create_date.year
+        month = image_create_date.month
+        day = image_create_date.day
+        return_link = f"https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{image_name}.png"
+        epic_response = requests.get(return_link, params=params)
         response.raise_for_status()
-        with open(f"images/{image_name}_{number}{extension}", "wb") as file:
-            file.write(response.content)
+        with open(f"images/{image_name}_{number}.png", "wb") as file:
+            file.write(epic_response.content)
     logging.debug("Function: download_images - Done")
 
 
