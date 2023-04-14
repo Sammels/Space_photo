@@ -8,9 +8,9 @@ LAUNCH_ID = "5eb87d46ffd86e000604b388"
 SPACEX_API = "https://api.spacexdata.com/v5/launches/"
 
 
-def fetch_spacex_last_launch(api: str, id_launch="latest") -> object:
+def fetch_spacex_last_launch(id_launch="latest") -> object:
     """Fucntion take api, and md5-hash launch -> download pict."""
-    update_api = f"{api}{id_launch}"
+    update_api = f"{SPACEX_API}{id_launch}"
     response = requests.get(update_api)
     response.raise_for_status()
     response = response.json()
@@ -28,4 +28,4 @@ if __name__ == "__main__":
     load_dotenv()
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    fetch_spacex_last_launch(SPACEX_API, LAUNCH_ID)
+    fetch_spacex_last_launch(LAUNCH_ID)
