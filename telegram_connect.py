@@ -17,7 +17,8 @@ def walk_dir(path: str):
 
 def send_image(chat_id: int) -> str:
     """Get chat_id -> send docs to channels"""
-    bot.send_document(chat_id=chat_id, document=open(f'images/{file}', 'rb'))
+    with open (f'images/{file}', 'rb') as f:
+        bot.send_document(chat_id=chat_id, document=f)
 
 
 if __name__ == "__main__":
