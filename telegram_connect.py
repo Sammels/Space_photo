@@ -27,16 +27,16 @@ if __name__ == "__main__":
     path = os.environ['DOWNLOAD_PATH']
     chat_id = os.environ['TELEGRAM_API_CHAT_ID']
 
+    file = walk_dir(path)
+
+    parser = argparse.ArgumentParser(description="Программа скачивает файлы.")
+    parser.add_argument("-t", "--time", help="Пауза в отправке сообщений (час)",
+                        type=int, default=4)
+    args = parser.parse_args()
+
     while True:
         bot = telegram.Bot(token=telegram_token)
         updates = bot.get_updates()
-
-        file = walk_dir(path)
-
-        parser = argparse.ArgumentParser(description="Программа скачивает файлы.")
-        parser.add_argument("-t", "--time", help="Пауза в отправке сообщений (час)",
-                            type=int, default=4)
-        args = parser.parse_args()
 
         send_image(chat_id)
         pause_time = (args.time * 60) * 60
