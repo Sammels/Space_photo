@@ -1,61 +1,49 @@
+import logging
 import os
 import requests
+import time
+
 from pathlib import Path
-from urllib.parse import urlsplit
 from dotenv import load_dotenv
 
-
-def download_images(url) -> object:
-    """Fucntion get url -> download img to path"""
-    list_url = url
-    for number, links in enumerate(list_url):
-        response = requests.get(links)
-        response.raise_for_status()
-        extension = get_file_extension(links)
-        with open(f"images/nasa_apod_{number}{extension}", "wb") as file:
-            file.write(response.content)
-    print("Download data = ok.")
+from python_utils import get_file_extension
 
 
-def get_file_extension(url: str) -> str:
-    """Function get http link and return file extension"""
-    url = urlsplit(url)[2]
-    template1 = os.path.splitext(url)
-    file_link, *extension = template1
-    return extension[0]
+API = "https://api.nasa.gov/planetary/apod"
 
 
 def get_nasa_photo(api: str, token: str, count: int) -> list:
     """Take nasa token, API, count -> return links"""
-    params = {"api_key": f"{token}", "count": f"{count}"}
+    params = {"api_key": token, "count": count}
     response = requests.get(api, params=params)
     response.raise_for_status()
-    linked = response.json()
+    photo_link = response.json()
 
-    link_list = []
-    for img_links in linked:
-        link_list.append(img_links.get("hdurl"))
-        if None in link_list:
-            none_index = link_list.index(None)
-            link_list.pop(none_index)
-    return link_list
+    links = []
+    for img_links in photo_link:
+        links.append(img_links.get("hdurl"))
+        if None in links:
+            none_index = links.index(None)
+            links.pop(none_index)
+    return links
 
 
-def sturtup_apod_script():
-    load_dotenv()
-    token = os.environ["NASA_API_TOKEN"]
-    nasa_api = os.environ["APOD_NASA_API"]
-    download_path = os.getenv("DOWNLOAD_PATH")
-    Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photo(nasa_api, token, 20)
-    download_images(nasa_link)
+def download_images(url: str, number: int, extension: str) -> object:
+    """Fucntion get url -> download img to path"""
+    response = requests.get(url)
+    response.raise_for_status()
+    with open(f"images/nasa_apod_{number}{extension}", "wb") as file:
+        file.write(response.content)
 
 
 if __name__ == "__main__":
     load_dotenv()
     token = os.environ["NASA_API_TOKEN"]
-    nasa_api = os.environ["APOD_NASA_API"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photo(nasa_api, token, 20)
-    download_images(nasa_link)
+    nasa_link = get_nasa_photo(API, token, 10)
+
+    for number, link in enumerate(nasa_link):
+        extension = get_file_extension(link)
+        download_images(link, number, extension)
+    logging.debug("Function: download_images - Done")
