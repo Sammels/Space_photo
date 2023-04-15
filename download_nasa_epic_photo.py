@@ -9,9 +9,9 @@ from dotenv import load_dotenv
 
 def get_epic_earth_link_photo(token: str) -> str:
     """Take token, them return foto from nasa api"""
-    epic_nasa_api = "https://api.nasa.gov/EPIC/api/natural/images"
+    API_NASA_EPIC_PHOTO = "https://api.nasa.gov/EPIC/api/natural/images"
     params = {"api_key": token}
-    response = requests.get(epic_nasa_api, params=params)
+    response = requests.get(API_NASA_EPIC_PHOTO, params=params)
     response.raise_for_status()
     url_links = response.json()
 

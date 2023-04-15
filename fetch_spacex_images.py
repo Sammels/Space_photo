@@ -5,13 +5,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 LAUNCH_ID = "5eb87d46ffd86e000604b388"
-SPACEX_API = "https://api.spacexdata.com/v5/launches/"
+API_SPACEX_LAUNCHES = "https://api.spacexdata.com/v5/launches/"
 
 
 def fetch_spacex_last_launch(id_launch="latest") -> object:
     """Fucntion take api, and md5-hash launch -> download pict."""
-    update_api = f"{SPACEX_API}{id_launch}"
-    response = requests.get(update_api)
+    api_adress = f"{API_SPACEX_LAUNCHES}{id_launch}"
+    response = requests.get(api_adress)
     response.raise_for_status()
     response = response.json()
     some_ship = response["links"]["flickr"]["original"]

@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from python_utils import get_file_extension
 
 
-API = "https://api.nasa.gov/planetary/apod"
+API_NASA_APOD_PHOTO = "https://api.nasa.gov/planetary/apod"
 
 
 def get_nasa_photo(api: str, token: str, count: int) -> list:
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     token = os.environ["NASA_API_TOKEN"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photo(API, token, 10)
+    nasa_link = get_nasa_photo(API_NASA_APOD_PHOTO, token, 10)
 
     for number, link in enumerate(nasa_link):
         extension = get_file_extension(link)
