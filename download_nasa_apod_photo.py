@@ -6,7 +6,7 @@ import time
 from pathlib import Path
 from dotenv import load_dotenv
 
-from python_utils import get_file_extension
+from python_utils import get_file_extension, download_image
 
 
 API_NASA_APOD_PHOTO = "https://api.nasa.gov/planetary/apod"
@@ -14,6 +14,7 @@ API_NASA_APOD_PHOTO = "https://api.nasa.gov/planetary/apod"
 
 def get_nasa_photos(api: str, token: str, count: int) -> list:
     """Take nasa token, API, count -> return links"""
+
     params = {"api_key": token, "count": count}
     response = requests.get(api, params=params)
     response.raise_for_status()
@@ -21,23 +22,16 @@ def get_nasa_photos(api: str, token: str, count: int) -> list:
 
     links = []
     for images_links in link_photos:
-        links.append(images_links.get("hdurl"))
         if None in links:
             none_index = links.index(None)
             links.pop(none_index)
+        links.append(images_links.get("hdurl"))
     return links
-
-
-def download_image(url: str, number: int, extension: str) -> object:
-    """Fucntion get url -> download img to path"""
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(f"images/nasa_apod_{number}{extension}", "wb") as file:
-        file.write(response.content)
 
 
 if __name__ == "__main__":
     load_dotenv()
+    ships_name = "Nasa_APOD"
     token = os.environ["NASA_API_TOKEN"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
@@ -45,5 +39,5 @@ if __name__ == "__main__":
 
     for number, link in enumerate(nasa_link):
         extension = get_file_extension(link)
-        download_image(link, number, extension)
+        download_image(link, ships_name, number, extension)
     logging.debug("Function: download_images - Done")
