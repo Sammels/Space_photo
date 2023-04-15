@@ -15,12 +15,6 @@ def walk_dir(path: str):
     return file_choice
 
 
-def send_image(chat_id: int) -> str:
-    """Get chat_id -> send docs to channels"""
-    with open (f'images/{file}', 'rb') as f:
-        bot.send_document(chat_id=chat_id, document=f)
-
-
 if __name__ == "__main__":
     load_dotenv()
     telegram_token = os.environ['TELEGRAM_API_TOKEN']
@@ -38,6 +32,8 @@ if __name__ == "__main__":
         bot = telegram.Bot(token=telegram_token)
         updates = bot.get_updates()
 
-        send_image(chat_id)
-        pause_time = (args.time * 60) * 60
-        time.sleep(pause_time)
+        with open(f'images/{file}', 'rb') as f:
+            bot.send_document(chat_id=chat_id, document=f)
+
+        timeout = (args.time * 60) * 60
+        time.sleep(timeout)

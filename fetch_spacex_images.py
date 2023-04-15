@@ -4,23 +4,25 @@ import requests
 from pathlib import Path
 from dotenv import load_dotenv
 
+from python_utils import get_file_extension, download_image
+
 LAUNCH_ID = "5eb87d46ffd86e000604b388"
 API_SPACEX_LAUNCHES = "https://api.spacexdata.com/v5/launches/"
 
 
-def fetch_spacex_last_launch(id_launch="latest") -> object:
+def fetch_spacex_last_launch(launch_id="latest") -> object:
     """Fucntion take api, and md5-hash launch -> download pict."""
-    api_adress = f"{API_SPACEX_LAUNCHES}{id_launch}"
-    response = requests.get(api_adress)
+    ships_name = "SpaceX"
+    api_address = f"{API_SPACEX_LAUNCHES}{launch_id}"
+    response = requests.get(api_address)
     response.raise_for_status()
     response = response.json()
     some_ship = response["links"]["flickr"]["original"]
 
+
     for number, link in enumerate(some_ship):
-        response = requests.get(link)
-        response.raise_for_status()
-        with open(f"images/ships_{number}.jpeg", "wb") as file:
-            file.write(response.content)
+        ext = get_file_extension(link)
+        download_image(link, ships_name, number, ext)
     logging.debug("Function: fetch_spacex_last_launch - Done")
 
 
