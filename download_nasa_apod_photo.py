@@ -21,10 +21,8 @@ def get_nasa_photos(api_url: str, token: str, count: int) -> list:
 
     links = []
     for images_links in link_photos:
-        if None in links:
-            none_index = links.index(None)
-            links.pop(none_index)
-        links.append(images_links.get("hdurl"))
+        if images_links.get("hdurl") != None:
+            links.append(images_links.get("hdurl"))
     return links
 
 
