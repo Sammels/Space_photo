@@ -17,10 +17,10 @@ def get_nasa_photos(api_url: str, token: str, count: int) -> list:
     params = {"api_key": token, "count": count}
     response = requests.get(api_url, params=params)
     response.raise_for_status()
-    link_photos = response.json()
+    photo_links = response.json()
 
     links = []
-    for images_links in link_photos:
+    for images_links in photo_links:
         if images_links.get("hdurl") != None:
             links.append(images_links.get("hdurl"))
     return links

@@ -10,13 +10,13 @@ def get_epic_earth_link_photo(token: str) -> str:
     """Take token, them return foto from nasa api"""
     params = {"api_key": token}
 
-    GET_AVAILABLE_EPIC_URL = "https://api.nasa.gov/EPIC/api/natural/available"
-    response = requests.get(GET_AVAILABLE_EPIC_URL, params=params)
+    available_epic_url = "https://api.nasa.gov/EPIC/api/natural/available"
+    response = requests.get(available_epic_url, params=params)
     response.raise_for_status()
     available_date = response.json()[-1]
 
-    API_NASA_EPIC_LINK = f"https://api.nasa.gov/EPIC/api/natural/date/{available_date}"
-    response = requests.get(API_NASA_EPIC_LINK, params=params)
+    api_nasa_epic_link = f"https://api.nasa.gov/EPIC/api/natural/date/{available_date}"
+    response = requests.get(api_nasa_epic_link, params=params)
     response.raise_for_status()
     url_links = response.json()
 
