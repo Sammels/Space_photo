@@ -1,7 +1,6 @@
 import logging
 import os
 import requests
-import time
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -9,14 +8,14 @@ from dotenv import load_dotenv
 from python_utils import get_file_extension, download_image
 
 
-API_NASA_APOD_PHOTO = "https://api.nasa.gov/planetary/apod"
+API_NASA_APOD_URL = "https://api.nasa.gov/planetary/apod"
 
 
-def get_nasa_photos(api: str, token: str, count: int) -> list:
+def get_nasa_photos(api_url: str, token: str, count: int) -> list:
     """Take nasa token, API, count -> return links"""
 
     params = {"api_key": token, "count": count}
-    response = requests.get(api, params=params)
+    response = requests.get(api_url, params=params)
     response.raise_for_status()
     link_photos = response.json()
 
@@ -35,7 +34,7 @@ if __name__ == "__main__":
     token = os.environ["NASA_API_TOKEN"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photos(API_NASA_APOD_PHOTO, token, 10)
+    nasa_link = get_nasa_photos(API_NASA_APOD_URL, token, 10)
 
     for number, link in enumerate(nasa_link):
         extension = get_file_extension(link)
