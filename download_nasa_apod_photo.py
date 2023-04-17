@@ -32,9 +32,9 @@ if __name__ == "__main__":
     token = os.environ["NASA_API_TOKEN"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_link = get_nasa_photos(API_NASA_APOD_URL, token, 10)
+    nasa_links = get_nasa_photos(API_NASA_APOD_URL, token, 10)
 
-    for number, link in enumerate(nasa_link):
+    for number, link in enumerate(nasa_links):
         extension = get_file_extension(link)
         download_image(link, ships_name, number, extension)
     logging.debug("Function: download_images - Done")
