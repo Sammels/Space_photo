@@ -21,7 +21,7 @@ def get_nasa_photos(api_url: str, token: str, count: int) -> list:
 
     links = []
     for images_links in photo_links:
-        if images_links.get("hdurl") != None:
+        if images_links.get("hdurl"):
             links.append(images_links.get("hdurl"))
     return links
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     token = os.environ["NASA_API_TOKEN"]
     download_path = os.getenv("DOWNLOAD_PATH")
     Path(download_path).mkdir(parents=True, exist_ok=True)
-    nasa_links = get_nasa_photos(API_NASA_APOD_URL, token, 10)
+    nasa_links = get_nasa_photos(API_NASA_APOD_URL, token, 20)
 
     for number, link in enumerate(nasa_links):
         extension = get_file_extension(link)
